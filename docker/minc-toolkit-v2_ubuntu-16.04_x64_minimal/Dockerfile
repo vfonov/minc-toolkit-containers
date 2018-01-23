@@ -2,8 +2,8 @@ FROM nistmni/minc-base-min:ubuntu-16.04
 
 # install minc-toolkit 1.9.16
 RUN wget http://packages.bic.mni.mcgill.ca/minc-toolkit/min/minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb && \
-    dpkg -i minc-toolkit-1.9.16-20170529-Ubuntu_16.04-x86_64.deb && \
-    rm -f minc-toolkit-1.9.16-20170529-Ubuntu_16.04-x86_64.deb && \
+    dpkg -i minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb && \
+    rm -f minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb && \
     apt-get autoclean && \
     rm -rf /var/lib/apt/lists/*
 
