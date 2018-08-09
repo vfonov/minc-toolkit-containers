@@ -1,5 +1,10 @@
 FROM nistmni/minc-base:ubuntu-16.04
 
+LABEL maintainer="vladimir.fonov@gmail.com"
+LABEL version="1.1"
+LABEL description="minc-toolkit-v2 with python and R packages"
+
+
 # install minc-toolkit 1.9.16
 RUN wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb  && \
     dpkg -i minc-toolkit-1.9.16-20180117-Ubuntu_16.04-x86_64.deb && \
@@ -20,14 +25,27 @@ RUN . /opt/minc/1.9.16/minc-toolkit-config.sh && \
     rm -f RMINC_1.5.1.0.tar.gz && \
     rm -f RMINC_1.5.1.0.tar.gz
 
+# install patched version of scoop
+RUN . /opt/minc/1.9.16/minc-toolkit-config.sh && \
+    wget https://github.com/vfonov/scoop/archive/master.tar.gz && \
+    tar zxf master.tar.gz && \
+    cd scoop-master && \
+    python setup.py install && \
+    python3 setup.py install && \
+    cd .. && \
+    rm -rf master.tar.gz scoop-master
+
 # install pyezminc, pyminc, minc2-simple
 RUN . /opt/minc/1.9.16/minc-toolkit-config.sh && \
     pip install pyminc --no-cache-dir && \
+    pip3 install pyminc --no-cache-dir && \
     wget https://github.com/BIC-MNI/pyezminc/archive/release-1.2.01.tar.gz && \
     pip install release-1.2.01.tar.gz --no-cache-dir && \
+    pip3 install release-1.2.01.tar.gz --no-cache-dir && \
     wget https://github.com/vfonov/minc2-simple/archive/v0.tar.gz && \
     tar zxf v0.tar.gz && \
     python minc2-simple-0/python/setup.py install && \
+    python3 minc2-simple-0/python/setup.py install && \
     rm -rf v0.tar.gz release-1.2.01.tar.gz minc2-simple-0 
 
 # add user to execute commands

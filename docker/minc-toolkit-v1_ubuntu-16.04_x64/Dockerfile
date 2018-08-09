@@ -1,5 +1,10 @@
 FROM nistmni/minc-base:ubuntu-16.04
 
+LABEL maintainer="vladimir.fonov@gmail.com"
+LABEL version="1.1"
+LABEL description="minc-toolkit with python and R packages"
+
+
 # install minc-toolkit 1.0.09
 RUN wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/minc-toolkit-1.0.09-20170529-Ubuntu_16.04-x86_64.deb  && \
     dpkg -i minc-toolkit-1.0.09-20170529-Ubuntu_16.04-x86_64.deb && \
