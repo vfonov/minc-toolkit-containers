@@ -18,7 +18,7 @@ MirrorURL: http://us.archive.ubuntu.com/ubuntu/
          gnupg2 \
          libjpeg8 \
          imagemagick \
-         perl \
+         perl octave \
          libgl1-mesa-glx \
          libglu1-mesa \
          r-base r-base-dev \

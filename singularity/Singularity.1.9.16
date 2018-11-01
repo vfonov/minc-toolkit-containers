@@ -22,7 +22,7 @@ From: vfonov/minc-toolkit-containers:base
     rm -rf /var/lib/apt/lists/*
 
     # update pip3
-    ##pip3 install pip setuptools wheel typing --upgrade
+    pip3 install pip setuptools wheel typing --upgrade
 
     # install minc-stuffs (automatically installs Pyminc)
     git clone --recursive https://github.com/Mouse-Imaging-Centre/minc-stuffs.git && \
