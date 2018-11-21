@@ -1,7 +1,5 @@
-#Bootstrap: localimage
-#From: /home/vfonov/src/minc-toolkit-containers/singularity/minc-toolkit-base.simg
 Bootstrap: shub
-From: vfonov/minc-toolkit-containers:base
+From: bcdarwin/minc-toolkit-containers:base
 
 # install minc packages
 %post
