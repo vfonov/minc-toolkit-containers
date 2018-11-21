@@ -35,13 +35,14 @@ From: vfonov/minc-toolkit-containers:base
     cd .. && rm -rf minc-stuffs
     
     # install RMINC
+    RMINC_VERSION=1.5.2.1
     . /opt/minc/1.9.16/minc-toolkit-config.sh && \
-    wget https://github.com/Mouse-Imaging-Centre/RMINC/releases/download/v1.5.1.0/RMINC_1.5.1.0.tar.gz && \
-    R CMD INSTALL RMINC_1.5.1.0.tar.gz --configure-args='--with-build-path=/opt/minc/1.9.16' && \
-    rm -f RMINC_1.5.1.0.tar.gz
+    wget https://github.com/Mouse-Imaging-Centre/RMINC/releases/download/v${RMINC_VERSION}/RMINC_${RMINC_VERSION}.tar.gz && \
+    R CMD INSTALL RMINC_${RMINC_VERSION}.tar.gz --configure-args='--with-build-path=/opt/minc/1.9.16' && \
+    rm -f RMINC_${RMINC_VERSION}.tar.gz
 
     # install Pydpiper
-    PYDPIPER_VERSION=2.0.11
+    PYDPIPER_VERSION=2.0.12
     wget https://github.com/Mouse-Imaging-Centre/pydpiper/archive/v${PYDPIPER_VERSION}.tar.gz && \
     tar zxf v${PYDPIPER_VERSION}.tar.gz && \
     cd pydpiper-${PYDPIPER_VERSION} && \
