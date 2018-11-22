@@ -35,8 +35,8 @@ From: bcdarwin/minc-toolkit-containers:base
     # install RMINC
     RMINC_VERSION=1.5.2.1
     . /opt/minc/1.9.16/minc-toolkit-config.sh && \
-    wget https://github.com/Mouse-Imaging-Centre/RMINC/releases/download/v${RMINC_VERSION}/RMINC_${RMINC_VERSION}.tar.gz && \
-    R CMD INSTALL RMINC_${RMINC_VERSION}.tar.gz --configure-args='--with-build-path=/opt/minc/1.9.16' && \
+    wget https://github.com/Mouse-Imaging-Centre/RMINC/archive/v${RMINC_VERSION}.tar.gz && \
+    R CMD INSTALL v${RMINC_VERSION}.tar.gz --configure-args='--with-build-path=/opt/minc/1.9.16' && \
     rm -f RMINC_${RMINC_VERSION}.tar.gz
 
     # install Pydpiper
