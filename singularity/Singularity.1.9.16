@@ -6,21 +6,26 @@ From: bcdarwin/minc-toolkit-containers:base
     set -e
 
     # install minc-toolkit 1.9.16
-    wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/minc-toolkit-1.9.16-20180117-Ubuntu_18.04-x86_64.deb
-    dpkg -i minc-toolkit-1.9.16-20180117-Ubuntu_18.04-x86_64.deb
-    rm -f minc-toolkit-1.9.16-20180117-Ubuntu_18.04-x86_64.deb 
-    wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/beast-library-1.1.0-20121212.deb 
-    dpkg -i beast-library-1.1.0-20121212.deb 
-    rm -f beast-library-1.1.0-20121212.deb 
-    wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/bic-mni-models-0.1.1-20120421.deb 
-    dpkg -i bic-mni-models-0.1.1-20120421.deb 
+    MINC_TOOLKIT_VERSION_BASE="1.9.16"
+    MINC_TOOLKIT_VERSION="${MINC_TOOLKIT_VERSION_BASE}-20180117"
+    wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/minc-toolkit-${MINC_TOOLKIT_VERSION}-Ubuntu_18.04-x86_64.deb
+    dpkg -i minc-toolkit-${MINC_TOOLKIT_VERSION}-Ubuntu_18.04-x86_64.deb
+    rm -f minc-toolkit-${MINC_TOOLKIT_VERSION}-Ubuntu_18.04-x86_64.deb
+    wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/beast-library-1.1.0-20121212.deb
+    dpkg -i beast-library-1.1.0-20121212.deb
+    rm -f beast-library-1.1.0-20121212.deb
+    wget http://packages.bic.mni.mcgill.ca/minc-toolkit/Debian/bic-mni-models-0.1.1-20120421.deb
+    dpkg -i bic-mni-models-0.1.1-20120421.deb
     rm -f bic-mni-models-0.1.1-20120421.deb
 
     apt-get autoclean 
     rm -rf /var/lib/apt/lists/*
 
-    # update pip3
-    pip3 install pip setuptools wheel typing --upgrade
+    #pip3 install pip setuptools wheel typing --upgrade
+
+    # needed since the minc-toolkit-config.sh break Debian's system numpy and
+    # and minc2-based programs we install have broken setup.py files so don't install it themselves:
+    . /opt/minc/1.9.16/minc-toolkit-config.sh && pip2 install numpy
 
     # install minc-stuffs (automatically installs Pyminc)
     git clone --recursive https://github.com/Mouse-Imaging-Centre/minc-stuffs.git && \
@@ -41,6 +46,7 @@ From: bcdarwin/minc-toolkit-containers:base
 
     # install Pydpiper
     PYDPIPER_VERSION=2.0.12
+    . /opt/minc/1.9.16/minc-toolkit-config.sh && \
     wget https://github.com/Mouse-Imaging-Centre/pydpiper/archive/v${PYDPIPER_VERSION}.tar.gz && \
     tar zxf v${PYDPIPER_VERSION}.tar.gz && \
     cd pydpiper-${PYDPIPER_VERSION} && \
