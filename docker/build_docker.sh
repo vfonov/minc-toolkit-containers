@@ -1,12 +1,14 @@
 #! /bin/sh
 
+# build base container
+docker build -t nistmni/minc-base-min:ubuntu-18.04 base
 
-# build V2
-docker build -t nistmni/minc-toolkit:1.9.16 minc-toolkit-v2_ubuntu-16.04_x64
+# build minimal V2
+docker build -t nistmni/minc-toolkit-min:1.9.18 minc-toolkit-v2_min
+
+# build full V2
+docker build -t nistmni/minc-toolkit:1.9.18 minc-toolkit-v2_full
 
 # build V1
-docker build -t nistmni/minc-toolkit:1.0.09 minc-toolkit-v1_ubuntu-16.04_x64
-
-
-# TODO: push to the docker hub
+docker build -t nistmni/minc-toolkit:1.0.09 minc-toolkit-v1_min
 
