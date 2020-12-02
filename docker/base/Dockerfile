@@ -13,7 +13,7 @@ RUN truncate -s0 /tmp/preseed.cfg; \
     debconf-set-selections /tmp/preseed.cfg && \
     rm -f /etc/timezone /etc/localtime && \
     apt-get update && \
-    apt-get install -y tzdata
+    apt-get install -y tzdata apt-utils
 
 # install basic system packages
 RUN apt-get -y update && \
@@ -25,12 +25,11 @@ RUN apt-get -y update && \
          wget \
          libjpeg8 \
          imagemagick \
-         perl \
-         apt-utils && \
+         perl  && \
     apt-get install -y ed libxml2-dev libcurl4-openssl-dev libssl-dev && \
-    apt-get install -y python-pip python-dev libzmq5-dev cython python-cffi python-numpy python-scipy python-matplotlib && \
-    apt-get install -y python3-pip python3-dev cython3 python3-cffi python3-numpy python3-scipy python3-matplotlib && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 
+    apt-get install -y python3-pip python3-dev cython3 python3-cffi python3-numpy python3-scipy python3-matplotlib python3-pil && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 51716619E084DAB9 && \
+    update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 
 
 # install basic system packages
@@ -44,7 +43,7 @@ RUN echo "deb http://cran.rstudio.com/bin/linux/ubuntu bionic-cran40/" > /etc/ap
     rm -rf /var/lib/apt/lists/*
 
 # install python modules not available through ubuntu
-RUN pip install pillow
+#RUN pip install pillow
 
 # Update R packages and install missing
 RUN Rscript -e 'update.packages(repos="https://cloud.r-project.org",ask=F)' && \

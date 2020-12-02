@@ -1,4 +1,5 @@
 FROM nistmni/minc-toolkit-min:1.9.18
+USER root
 
 LABEL maintainer="vladimir.fonov@gmail.com"
 LABEL version="1.2"
