@@ -1,0 +1,67 @@
+# based on https://github.com/ds4dm/singularity-conda
+
+Bootstrap: debootstrap
+OSVersion: bionic
+MirrorURL: http://us.archive.ubuntu.com/ubuntu/
+
+%environment
+	# Extremely lazy sourcing of the Conda activation script
+	export PROMPT_COMMAND='source /opt/mamba/init.bash; unset PROMPT_COMMAND'
+
+
+%post
+	# install basic system packages without X11 components
+    apt-get -y update
+    apt-get install -y gnupg
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9 
+    sed -i 's/$/ universe/' /etc/apt/sources.list 
+    apt-get -y update 
+    apt-get install -y \
+         bc \
+         wget \
+         gnupg2 \
+         ed git tar ca-certificates \
+         locales automake git lsof 
+
+    # update locales
+    locale-gen en_US.UTF-8 en_US en_CA.UTF-8 en_CA
+    dpkg-reconfigure locales
+
+    apt-get autoclean
+    rm -rf /var/lib/apt/lists/*
+
+	# Install Mamba (Conda alternative) through Mambaforge
+	readonly mamba_installer="Mambaforge-$(uname)-$(uname -m).sh"
+	readonly mamba_version="4.12.0-2"
+	readonly mamba_prefix="/opt/mamba"
+	wget "https://github.com/conda-forge/miniforge/releases/download/${mamba_version}/${mamba_installer}"
+	bash "${mamba_installer}" -b -p "${mamba_prefix}"
+	rm "${mamba_installer}"
+
+    # Put the Conda initialization script in a file for lazy loading/
+	# Singularity does all the environment sourcing as shell (only latter calls bash),
+	# which conda does not support.
+	# We put the content in a file, manually call bash, and source it.
+	{
+		echo 'eval "$(' "'${mamba_prefix}/bin/conda' 'shell.bash' 'hook' 2> /dev/null" ')"'
+		echo 'if [ $? -eq 0 ]; then'
+		echo '  eval "$__conda_setup"'
+		echo 'else'
+		echo '  if [ -f ' "'${mamba_prefix}/etc/profile.d/conda.sh'" ']; then'
+		echo '    .' "'${mamba_prefix}/opt/mamba/etc/profile.d/conda.sh'"
+		echo '  else'
+		echo '    export PATH="/opt/mamba/bin:$PATH"'
+		echo '  fi'
+		echo 'fi'
+		echo 'unset __conda_setup'
+	} >> ${mamba_prefix}/init.bash
+
+
+%labels
+    Maintainer Vladimir S. Fonov
+    AUTHOR vladimir.fonov@gmail.com
+    Version 1.2
+
+%help
+    Image for minc-toolkit-v2 base image
+

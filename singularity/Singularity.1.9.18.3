@@ -1,0 +1,28 @@
+Bootstrap: localimage
+From: conda-base.simg
+#Bootstrap: shub
+#From: vfonov/minc-toolkit-containers:base-min
+
+
+%environment
+	# activate minc
+    export PROMPT_COMMAND='source /opt/mamba/init.bash; conda activate minc; unset PROMPT_COMMAND'
+
+
+%files
+	post.bash /opt/post.bash
+
+# install minc packages
+%post
+	# Execute the post.bash script.
+	# Use bash to properly activate the conda environment and install packages.
+	# Other command such as cmake, pip, etc are better run inside the post.bash file so that they can
+	# Conda libraries.
+	echo 'source' "'/opt/mamba/init.bash'" | cat - /opt/post.bash | bash
+    rm /opt/post.bash
+
+
+%labels
+    Maintainer Vladimir S. Fonov
+    AUTHOR vladimir.fonov@gmail.com
+    Version 1.9.18.3
